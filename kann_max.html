@@ -1,483 +1,841 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>KANN Max Playbook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
+  <h1 style="text-align: center;">KANN Max Playbook</h1>
+  <p style="margin-bottom:2rem; font-size:1.1em; color:#3e2c18; max-width:700px; text-align:center;">
+    The Astell&Kern KANN Max is a flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the KANN Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
+  </p>
+  <img src="assets/Astell_Kern_KANN_Max.jpg" alt="Astell&Kern KANN Max" class="product-image">
+</div>
+<script>
+// EQ data for each preset, per headphone
+const eqPresets = [
+  // LCD-2 Classic
+  { selector: 'eq-lcd2-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-lcd2-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-lcd2-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  // Focal Celestee
+  { selector: 'eq-celestee-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-celestee-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-celestee-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  // Sennheiser HD800
+  { selector: 'eq-hd800-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-hd800-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-hd800-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  // Sennheiser HD599
+  { selector: 'eq-hd599-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-hd599-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-hd599-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  // Hifiman Audivina
+  { selector: 'eq-audivina-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-audivina-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-audivina-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  // Hifiman Ananda Nano
+  { selector: 'eq-ananda-musical', bands: [
+    {f:30,g:2.5,q:2.0},{f:45,g:2.5,q:2.0},{f:60,g:2.5,q:2.0},{f:90,g:2.5,q:2.0},{f:120,g:2.5,q:2.0},{f:180,g:2.5,q:2.0},{f:250,g:2.4,q:2.0},{f:380,g:2.4,q:2.0},{f:500,g:2.4,q:2.0},{f:750,g:2.3,q:2.0},{f:1000,g:2.3,q:2.0},{f:1500,g:2.2,q:2.0},{f:2000,g:2.1,q:2.0},{f:3000,g:1.8,q:2.0},{f:4000,g:1.6,q:2.0},{f:6000,g:1.2,q:2.0},{f:8000,g:0.7,q:2.0},{f:12000,g:-0.2,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.5,q:2.0}
+  ]},
+  { selector: 'eq-ananda-bass', bands: [
+    {f:30,g:4.0,q:2.0},{f:45,g:4.0,q:2.0},{f:60,g:4.0,q:2.0},{f:90,g:4.0,q:2.0},{f:120,g:4.0,q:2.0},{f:180,g:4.0,q:2.0},{f:250,g:3.9,q:2.0},{f:380,g:3.9,q:2.0},{f:500,g:3.9,q:2.0},{f:750,g:3.8,q:2.0},{f:1000,g:3.7,q:2.0},{f:1500,g:3.6,q:2.0},{f:2000,g:3.4,q:2.0},{f:3000,g:3.2,q:2.0},{f:4000,g:2.9,q:2.0},{f:6000,g:2.3,q:2.0},{f:8000,g:1.8,q:2.0},{f:12000,g:0.7,q:2.0},{f:14000,g:0.1,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]},
+  { selector: 'eq-ananda-relax', bands: [
+    {f:30,g:1.0,q:2.0},{f:45,g:1.0,q:2.0},{f:60,g:1.0,q:2.0},{f:90,g:1.0,q:2.0},{f:120,g:1.0,q:2.0},{f:180,g:1.0,q:2.0},{f:250,g:1.0,q:2.0},{f:380,g:1.0,q:2.0},{f:500,g:0.9,q:2.0},{f:750,g:0.9,q:2.0},{f:1000,g:0.9,q:2.0},{f:1500,g:0.8,q:2.0},{f:2000,g:0.8,q:2.0},{f:3000,g:0.7,q:2.0},{f:4000,g:0.6,q:2.0},{f:6000,g:0.3,q:2.0},{f:8000,g:0.1,q:2.0},{f:12000,g:-0.3,q:2.0},{f:14000,g:-0.6,q:2.0},{f:18000,g:-1.0,q:2.0}
+  ]}
+];
+
+function formatFreq(f) {
+  return f >= 1000 ? (f/1000).toFixed(f % 1000 === 0 ? 0 : 1) + 'k' : f;
+}
+
+function renderEQ(selector, bands) {
+  const container = document.querySelector('.' + selector);
+  if (!container) return;
+  // Y axis: -5 to +5 dB
+  const minGain = -5, maxGain = 5, range = maxGain - minGain;
+  let html = `<div class='eq-visualizer'>
+    <div class='eq-y-axis-col'>
+      <span>+5dB</span>
+      <span class='mid'>0</span>
+      <span>-5dB</span>
+    </div>
+    <div class='eq-slider-row'>`;
+  bands.forEach(band => {
+    let gain = Math.max(minGain, Math.min(maxGain, band.g));
+    let percent = ((maxGain - gain) / range) * 100;
+    html += `
+      <div class='eq-band'>
+        <div class='eq-slider'>
+          <div class='eq-slider-track'></div>
+          <div class='eq-slider-knob' style='top:calc(${percent}% - 4px);'></div>
+        </div>
+        <div class='eq-labels'>
+          <strong>${formatFreq(band.f)}</strong>
+          <span>G:${band.g}</span>
+          <span>Q:${band.q}</span>
+        </div>
+      </div>`;
+  });
+  html += `</div></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  eqPresets.forEach(preset => renderEQ(preset.selector, preset.bands));
+});
+</script>
+
+<div class="card">
 <h2>Audeze LCD-2 Classic</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/LCD-2-1.jpg" alt="Audeze LCD-2 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> KZ ZAS, TangZu Shimin Li</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="lcd2-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="lcd2-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="lcd2-tuning-rows"></div>
+  </div>
+</div>
+</div>
+<script>
+const lcd2Bands = [
+  [2.5,2.3,2.1,1.8,1.3,0.7,0.2,-0.3,-0.5,-0.8,-0.6,0.1,0.5,0.9,0.6,0.3,0,-0.2,-0.5,-0.8], // green
+  [4.5,4.2,3.8,3.1,2.2,1.2,0.5,-0.3,-1,-1.5,-1.2,-0.2,0.4,1,0.9,0.5,0,-0.3,-0.7,-1], // red
+  [1.5,1.3,1,0.5,0.1,-0.3,-0.5,-0.8,-1,-0.8,-0.4,0.2,0.4,0.6,0.3,0,-0.3,-0.5,-0.7,-1] // blue
+];
+const lcd2Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const lcd2Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const lcd2Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function formatFreq(f) { return f >= 1000 ? (f/1000).toFixed(f % 1000 === 0 ? 0 : 1) + 'k' : f; }
+function drawLcd2EQ() {
+  const canvas = document.getElementById('lcd2-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = lcd2Freqs.length;
+  // Calculate leftPad and rightPad so the first and last dots align with the first and last value columns
+  const valueBoxWidth = 730; // px, must match .eq-lcd2-tuning-values-box width in CSS
+  const colWidth = valueBoxWidth / (bandCount); // 20 columns, 730/20 = 36.5px per col
+  // Move the graph about 70px to the right for alignment
+  const leftPad = colWidth/2 + 100 + 17; // shifted 13px right
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  // Draw y axis lines and labels
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+
+  // Draw fine horizontal grid lines at -5, -2.5, 0, 2.5, 5 dB
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)'; // a little darker gray
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+
+  // Draw each tuning
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = lcd2Colors[t];
+    ctx.lineWidth = 0.55; // 10% thicker than previous (was 0.5)
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-lcd2Bands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    // Draw small circles at each band
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-lcd2Bands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI); // 10% thicker (was 1.5)
+      ctx.fillStyle = lcd2Colors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderLcd2TuningRows() {
+  const container = document.getElementById('lcd2-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${lcd2Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<lcd2Bands[t].length;i++) {
+      html += `<span>${lcd2Bands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderLcd2FreqRow() {
+  const container = document.getElementById('lcd2-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  // No label for frequency row
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<lcd2Freqs.length;i++) {
+    html += `<span>${formatFreq(lcd2Freqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawLcd2EQ();
+  renderLcd2FreqRow();
+  renderLcd2TuningRows();
+});
+</script>
+
+<script>
+const celesteeBands = [
+  [1.8,1.6,1.4,1.2,0.9,0.4,-0.1,-0.5,-0.7,-0.9,-0.5,0,0.3,0.6,0.5,0.2,0,-0.3,-0.4,-0.6], // Musical Warmth
+  [3.2,3,2.6,2,1.2,0.5,0,-0.7,-1.1,-1.6,-1.3,-0.5,0.2,0.9,0.8,0.4,0,-0.4,-0.6,-1], // Max Bass Fun
+  [1,0.9,0.7,0.3,0,-0.2,-0.4,-0.7,-1,-0.8,-0.3,0.1,0.2,0.4,0.1,0,-0.3,-0.5,-0.6,-0.9] // Ultimate Relax
+];
+const celesteeColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const celesteeLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const celesteeFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function drawCelesteeEQ() {
+  const canvas = document.getElementById('celestee-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = celesteeFreqs.length;
+  const valueBoxWidth = 730;
+  const colWidth = valueBoxWidth / (bandCount);
+  const leftPad = colWidth/2 + 100 + 17;
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = celesteeColors[t];
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-celesteeBands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-celesteeBands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI);
+      ctx.fillStyle = celesteeColors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderCelesteeTuningRows() {
+  const container = document.getElementById('celestee-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${celesteeLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<celesteeBands[t].length;i++) {
+      html += `<span>${celesteeBands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderCelesteeFreqRow() {
+  const container = document.getElementById('celestee-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<celesteeFreqs.length;i++) {
+    html += `<span>${formatFreq(celesteeFreqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawCelesteeEQ();
+  renderCelesteeFreqRow();
+  renderCelesteeTuningRows();
+});
+</script>
+
+<div class="card">
 <h2>Focal Celestee</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/CA1000T.jpg" alt="Focal Celestee Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> KZ ZS10 Pro, Moondrop Variations</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="celestee-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="celestee-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="celestee-tuning-rows"></div>
+  </div>
+</div>
+</div>
+
+<div class="card">
 <h2>Sennheiser HD800</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/LCD-2.jpg" alt="Sennheiser HD800 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> Moondrop Stellaris</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="hd800-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="hd800-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="hd800-tuning-rows"></div>
+  </div>
+</div>
+</div>
+<script>
+const hd800Bands = [
+  [2.2,2,1.7,1.3,0.9,0.3,-0.2,-0.6,-0.9,-1.1,-0.7,0,0.4,0.8,0.6,0.3,0,-0.4,-0.5,-0.8],
+  [4,3.6,3.2,2.5,1.7,0.8,0.2,-0.6,-1.3,-1.8,-1.5,-0.7,0.3,1,0.9,0.4,0,-0.4,-0.7,-1.1],
+  [1.3,1.1,0.8,0.4,0,-0.3,-0.6,-0.9,-1.2,-0.9,-0.5,0.1,0.3,0.5,0.2,0,-0.4,-0.6,-0.8,-1]
+];
+const hd800Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const hd800Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const hd800Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function drawHd800EQ() {
+  const canvas = document.getElementById('hd800-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = hd800Freqs.length;
+  const valueBoxWidth = 730;
+  const colWidth = valueBoxWidth / (bandCount);
+  const leftPad = colWidth/2 + 100 + 17;
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = hd800Colors[t];
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-hd800Bands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-hd800Bands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI);
+      ctx.fillStyle = hd800Colors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderHd800TuningRows() {
+  const container = document.getElementById('hd800-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${hd800Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<hd800Bands[t].length;i++) {
+      html += `<span>${hd800Bands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderHd800FreqRow() {
+  const container = document.getElementById('hd800-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<hd800Freqs.length;i++) {
+    html += `<span>${formatFreq(hd800Freqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawHd800EQ();
+  renderHd800FreqRow();
+  renderHd800TuningRows();
+});
+</script>
+
+<div class="card">
 <h2>Sennheiser HD599</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/LCD-2.jpg" alt="Sennheiser HD599 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> 7Hz x Crinacle Zero:Red, KZ ZEX Pro</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="hd599-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="hd599-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="hd599-tuning-rows"></div>
+  </div>
+</div>
+</div>
+<script>
+const hd599Bands = [
+  [2,1.8,1.5,1,0.7,0.1,-0.4,-0.8,-1,-1.2,-0.6,0,0.3,0.6,0.4,0.1,0,-0.3,-0.4,-0.7],
+  [3.5,3.2,2.7,2,1.1,0.3,-0.3,-0.9,-1.4,-1.7,-1.2,-0.4,0.3,0.8,0.6,0.3,0,-0.4,-0.6,-0.9],
+  [1,0.9,0.7,0.3,0,-0.3,-0.5,-0.8,-1.1,-0.9,-0.4,0.2,0.3,0.4,0.2,0,-0.3,-0.5,-0.7,-1]
+];
+const hd599Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const hd599Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const hd599Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function drawHd599EQ() {
+  const canvas = document.getElementById('hd599-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = hd599Freqs.length;
+  const valueBoxWidth = 730;
+  const colWidth = valueBoxWidth / (bandCount);
+  const leftPad = colWidth/2 + 100 + 17;
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = hd599Colors[t];
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-hd599Bands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-hd599Bands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI);
+      ctx.fillStyle = hd599Colors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderHd599TuningRows() {
+  const container = document.getElementById('hd599-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${hd599Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<hd599Bands[t].length;i++) {
+      html += `<span>${hd599Bands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderHd599FreqRow() {
+  const container = document.getElementById('hd599-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<hd599Freqs.length;i++) {
+    html += `<span>${formatFreq(hd599Freqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawHd599EQ();
+  renderHd599FreqRow();
+  renderHd599TuningRows();
+});
+</script>
+
+<div class="card">
 <h2>Hifiman Audivina</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/LCD-2.jpg" alt="Hifiman Audivina Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> KZ ZSN Pro X, Letshuoer DZ4</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="audivina-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="audivina-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="audivina-tuning-rows"></div>
+  </div>
+</div>
+</div>
+<script>
+const audivinaBands = [
+  [2.4,2.2,1.9,1.5,1.1,0.6,0,-0.5,-0.7,-1,-0.4,0.1,0.4,0.7,0.6,0.3,0,-0.2,-0.5,-0.9],
+  [4.2,3.9,3.5,2.7,1.8,0.9,0.2,-0.6,-1.1,-1.6,-1.3,-0.6,0.2,0.9,0.7,0.4,0,-0.4,-0.6,-1],
+  [1.4,1.2,0.9,0.4,0,-0.3,-0.5,-0.9,-1.2,-0.8,-0.3,0.2,0.4,0.5,0.2,0,-0.3,-0.5,-0.8,-1.1]
+];
+const audivinaColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const audivinaLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const audivinaFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function drawAudivinaEQ() {
+  const canvas = document.getElementById('audivina-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = audivinaFreqs.length;
+  const valueBoxWidth = 730;
+  const colWidth = valueBoxWidth / (bandCount);
+  const leftPad = colWidth/2 + 100 + 17;
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = audivinaColors[t];
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-audivinaBands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-audivinaBands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI);
+      ctx.fillStyle = audivinaColors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderAudivinaTuningRows() {
+  const container = document.getElementById('audivina-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${audivinaLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<audivinaBands[t].length;i++) {
+      html += `<span>${audivinaBands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderAudivinaFreqRow() {
+  const container = document.getElementById('audivina-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<audivinaFreqs.length;i++) {
+    html += `<span>${formatFreq(audivinaFreqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawAudivinaEQ();
+  renderAudivinaFreqRow();
+  renderAudivinaTuningRows();
+});
+</script>
+
+<div class="card">
 <h2>Hifiman Ananda Nano</h2>
+<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
+  <img src="assets/LCD-2.jpg" alt="Hifiman Ananda Nano Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+</div>
 <p><strong>Matching IEMs:</strong> Simgot EW200, Dunu Titan S</p>
-<h3>Musical Warmth</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>45</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>60</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>90</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>120</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>180</td><td>2.5</td><td>2.0</td></tr>
-<tr><td>250</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>380</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>500</td><td>2.4</td><td>2.0</td></tr>
-<tr><td>750</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>1500</td><td>2.2</td><td>2.0</td></tr>
-<tr><td>2000</td><td>2.1</td><td>2.0</td></tr>
-<tr><td>3000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>4000</td><td>1.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>1.2</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.2</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.5</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Max Bass Fun</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>4.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>380</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>500</td><td>3.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>3.8</td><td>2.0</td></tr>
-<tr><td>1000</td><td>3.7</td><td>2.0</td></tr>
-<tr><td>1500</td><td>3.6</td><td>2.0</td></tr>
-<tr><td>2000</td><td>3.4</td><td>2.0</td></tr>
-<tr><td>3000</td><td>3.2</td><td>2.0</td></tr>
-<tr><td>4000</td><td>2.9</td><td>2.0</td></tr>
-<tr><td>6000</td><td>2.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>1.8</td><td>2.0</td></tr>
-<tr><td>12000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>14000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
-<h3>Ultimate Relax</h3>
-<table>
-<thead><tr><th>Frequency</th><th>Gain (dB)</th><th>Q</th></tr></thead>
-<tbody>
-<tr><td>30</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>45</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>60</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>90</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>120</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>180</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>250</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>380</td><td>1.0</td><td>2.0</td></tr>
-<tr><td>500</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>750</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1000</td><td>0.9</td><td>2.0</td></tr>
-<tr><td>1500</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>2000</td><td>0.8</td><td>2.0</td></tr>
-<tr><td>3000</td><td>0.7</td><td>2.0</td></tr>
-<tr><td>4000</td><td>0.6</td><td>2.0</td></tr>
-<tr><td>6000</td><td>0.3</td><td>2.0</td></tr>
-<tr><td>8000</td><td>0.1</td><td>2.0</td></tr>
-<tr><td>12000</td><td>-0.3</td><td>2.0</td></tr>
-<tr><td>14000</td><td>-0.6</td><td>2.0</td></tr>
-<tr><td>18000</td><td>-1.0</td><td>2.0</td></tr>
-</tbody>
-</table>
+<div class="eq-lcd2-multibox">
+  <div class="eq-lcd2-vertbar">
+    <div class="eq-y-axis-col">
+      <span>+5dB</span>
+      <span class="mid">0</span>
+      <span>-5dB</span>
+    </div>
+  </div>
+  <div class="eq-lcd2-contentbox">
+    <canvas id="ananda-eq-canvas" width="820" height="200" class="eq-lcd2-eq-graph"></canvas>
+    <div class="eq-lcd2-freq-row" id="ananda-freq-row"></div>
+    <div class="eq-lcd2-tuning-rows" id="ananda-tuning-rows"></div>
+  </div>
+</div>
+</div>
+<script>
+const anandaBands = [
+  [2.1,1.9,1.6,1.2,0.8,0.3,-0.2,-0.6,-0.8,-1.1,-0.6,0,0.3,0.7,0.5,0.2,0,-0.2,-0.5,-0.8],
+  [3.8,3.5,3,2.4,1.5,0.7,0,-0.7,-1.3,-1.7,-1.2,-0.4,0.3,0.9,0.7,0.3,0,-0.3,-0.6,-1],
+  [1.2,1,0.7,0.3,0,-0.3,-0.5,-0.8,-1,-0.9,-0.4,0.1,0.3,0.4,0.2,0,-0.3,-0.5,-0.7,-1]
+];
+const anandaColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const anandaLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
+const anandaFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+function drawAnandaEQ() {
+  const canvas = document.getElementById('ananda-eq-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
+  const bandCount = anandaFreqs.length;
+  const valueBoxWidth = 730;
+  const colWidth = valueBoxWidth / (bandCount);
+  const leftPad = colWidth/2 + 100 + 17;
+  const rightPad = (colWidth/2) + 50;
+  const topPad = 20, botPad = 40;
+  const graphW = W - leftPad - rightPad;
+  const graphH = H - topPad - botPad;
+  ctx.strokeStyle = '#bfa14a';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
+  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-8, topPad+5);
+  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.save();
+  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
+  ctx.lineWidth = 0.5;
+  const gridVals = [-5, -2.5, 0, 2.5, 5];
+  gridVals.forEach(val => {
+    const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
+    ctx.beginPath();
+    ctx.moveTo(leftPad, y);
+    ctx.lineTo(leftPad+graphW, y);
+    ctx.stroke();
+  });
+  ctx.restore();
+  for(let t=0;t<3;t++) {
+    ctx.strokeStyle = anandaColors[t];
+    ctx.lineWidth = 0.55;
+    ctx.beginPath();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-anandaBands[t][i])/(maxGain-minGain))*graphH;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    for(let i=0;i<bandCount;i++) {
+      const x = leftPad + i*graphW/(bandCount-1);
+      const y = topPad + ((maxGain-anandaBands[t][i])/(maxGain-minGain))*graphH;
+      ctx.beginPath();
+      ctx.arc(x,y,1.65,0,2*Math.PI);
+      ctx.fillStyle = anandaColors[t];
+      ctx.fill();
+    }
+  }
+}
+function renderAnandaTuningRows() {
+  const container = document.getElementById('ananda-tuning-rows');
+  if (!container) return;
+  let html = '';
+  for(let t=0;t<3;t++) {
+    html += `<div class='eq-lcd2-tuning-row'>
+      <span class='label ${['green','red','blue'][t]}'>${anandaLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+    for(let i=0;i<anandaBands[t].length;i++) {
+      html += `<span>${anandaBands[t][i]}</span>`;
+    }
+    html += `</span></div>`;
+  }
+  container.innerHTML = html;
+}
+function renderAnandaFreqRow() {
+  const container = document.getElementById('ananda-freq-row');
+  if (!container) return;
+  let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
+  for(let i=0;i<anandaFreqs.length;i++) {
+    html += `<span>${formatFreq(anandaFreqs[i])}</span>`;
+  }
+  html += `</span></div>`;
+  container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', () => {
+  drawAnandaEQ();
+  renderAnandaFreqRow();
+  renderAnandaTuningRows();
+});
+</script>
+
 <h2>Cheat Sheet</h2>
 <table>
 <thead><tr><th>Headphone</th><th>Tuning</th><th>Gain</th><th>DAC Filter</th></tr></thead>
@@ -486,6 +844,13 @@
 <tr><td>Audeze LCD-2 Classic</td><td>Max Bass Fun</td><td>Mid</td><td>Minimum Phase Fast Roll-off</td></tr>
 <tr><td>Audeze LCD-2 Classic</td><td>Ultimate Relax</td><td>Mid</td><td>Minimum Phase Slow Roll-off</td></tr>
 <tr><td>Focal Celestee</td><td>Musical Warmth</td><td>High</td><td>Apodizing Fast Roll-off</td></tr>
+<tr><td>Focal Celestee</td><td>Max Bass Fun</td><td>High</td><td>Minimum Phase Fast Roll-off</td></tr>
+<tr><td>Focal Celestee</td><td>Ultimate Relax</td><td>High</td><td>Minimum Phase Slow Roll-off</td></tr>
+<tr><td>Sennheiser HD800</td><td>Musical Warmth</td><td>High</td><td>Apodizing Fast Roll-off</td></tr>
+<tr><td>Sennheiser HD800</td><td>Max Bass Fun</td><td>High</td><td>Minimum Phase Fast Roll-off</td></tr>
+<tr><td>Sennheiser HD800</td><td>Ultimate Relax</td><td>High</td><td>Minimum Phase Slow Roll-off</td></tr>
+<tr><td>Sennheiser HD599</td><td>Musical Warmth</td><td>Low</td><td>Apodizing Fast Roll-off</td></tr>
+<tr><td>Sennheiser HD599</td><td>Max Bass Fun</td><td>Low</td><td>Minimum Phase Fast Roll-off</td></tr>
 <tr><td>Focal Celestee</td><td>Max Bass Fun</td><td>High</td><td>Minimum Phase Fast Roll-off</td></tr>
 <tr><td>Focal Celestee</td><td>Ultimate Relax</td><td>High</td><td>Minimum Phase Slow Roll-off</td></tr>
 <tr><td>Sennheiser HD800</td><td>Musical Warmth</td><td>High</td><td>Apodizing Fast Roll-off</td></tr>
@@ -502,3 +867,6 @@
 <tr><td>Hifiman Ananda Nano</td><td>Ultimate Relax</td><td>Mid</td><td>Minimum Phase Slow Roll-off</td></tr>
 </tbody>
 </table>
+</div>
+</body>
+</html>
