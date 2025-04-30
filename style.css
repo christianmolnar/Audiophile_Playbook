@@ -1,8 +1,23 @@
 /* Audiophile Playbook Elegant Theme */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Inter:wght@300;400;700&display=swap');
 
+:root {
+  --color-green: #2ecc40;
+  --color-red: #e74c3c;
+  --color-blue: #2980ef;
+  --color-gold: #bfa14a;
+  --color-brown: #7c5c35;
+  --color-bg: #f8f8f8;
+  --color-bg-dark: #e0e0e0;
+  --color-graph-grid: rgba(80,80,80,0.22);
+  --font-main: 'Inter', 'Montserrat', Arial, sans-serif;
+  --font-heading: 'Montserrat', 'Inter', Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-heading: 1.5rem;
+}
+
 body {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   background: linear-gradient(120deg, #f8f7f3 0%, #e7e3d0 100%);
   /* light silver with a gold tint */
@@ -21,7 +36,7 @@ body::before {
 }
 
 header, footer {
-  background: #7c5c35;
+  background: var(--color-brown);
   color: #f5e9da;
   padding: 1.5rem 0;
   text-align: center;
@@ -29,22 +44,23 @@ header, footer {
 }
 
 h1, h2, h3 {
-  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 400;
-  color: #bfa14a;
+  color: var(--color-gold);
   margin-top: 1.5rem;
   letter-spacing: 1px;
+  font-size: var(--font-size-heading);
 }
 
 a {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
-  color: #bfa14a;
+  color: var(--color-gold);
   text-decoration: none;
   transition: color 0.2s;
 }
 a:hover {
-  color: #7c5c35;
+  color: var(--color-brown);
 }
 
 main, .content {
@@ -57,9 +73,9 @@ main, .content {
 }
 
 .card {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
-  background: linear-gradient(135deg, #44484e 0%, #bfa14a 100%);
+  background: linear-gradient(135deg, #44484e 0%, var(--color-gold) 100%);
   color: #3e2c18;
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(60,40,20,0.18);
@@ -93,7 +109,7 @@ main, .content {
 }
 
 .card, .card p, .card .eq-labels, .card .eq-labels strong, .card .eq-y-axis-col span, .card th, .card td {
-  color: #bfa14a !important;
+  color: var(--color-gold) !important;
   font-weight: 300;
 }
 
@@ -107,15 +123,15 @@ main, .content {
 }
 
 ul, ol {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   padding-left: 2rem;
 }
 
 button, .btn {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
-  background: #bfa14a;
+  background: var(--color-gold);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -125,17 +141,17 @@ button, .btn {
   transition: background 0.2s;
 }
 button:hover, .btn:hover {
-  background: #7c5c35;
+  background: var(--color-brown);
 }
 
 hr {
   border: none;
-  border-top: 1px solid #bfa14a;
+  border-top: 1px solid var(--color-gold);
   margin: 2rem 0;
 }
 
 table {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   width: 100%;
   border-collapse: collapse;
@@ -146,15 +162,15 @@ table {
   box-shadow: 0 1px 6px rgba(60,40,20,0.06);
 }
 th, td {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #e6d3b3;
 }
 th {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
-  background: #bfa14a;
+  background: var(--color-gold);
   color: #fff;
   font-weight: 700;
 }
@@ -173,7 +189,7 @@ tr:last-child td {
   max-width: 100%;
   width: auto;
   background: #edece7;
-  border: 3px solid #bfa14a;
+  border: 3px solid var(--color-gold);
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(60,40,20,0.10), 0 0 0 6px #e7e3d0 inset;
   padding: 2.5rem 2.5rem 1.5rem 3.5rem;
@@ -203,7 +219,7 @@ tr:last-child td {
   padding: 2px 0;
 }
 .eq-y-axis-row .mid {
-  color: #bfa14a;
+  color: var(--color-gold);
   background: #f8f7f3;
 }
 .eq-slider-row {
@@ -246,13 +262,13 @@ tr:last-child td {
   top: 0;
   width: 4px;
   height: 100%;
-  background: #bfa14a;
+  background: var(--color-gold);
   border-radius: 2px;
   transform: translateX(-50%);
   z-index: 1;
 }
 .eq-labels {
-  font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   text-align: center;
   font-size: 0.85em;
@@ -262,7 +278,7 @@ tr:last-child td {
 .eq-labels strong {
   display: block;
   font-size: 1em;
-  color: #7c5c35;
+  color: var(--color-brown);
 }
 .eq-y-axis {
   position: absolute;
@@ -274,7 +290,7 @@ tr:last-child td {
   flex-direction: column;
   justify-content: space-between;
   font-size: 0.95em;
-  color: #7c5c35;
+  color: var(--color-brown);
   z-index: 9999;
   pointer-events: none;
   font-weight: bold;
@@ -320,7 +336,7 @@ tr:last-child td {
   top: -58px; /* Move the label column up by about 1/4th of the box height (200px). */
 }
 .eq-y-axis-col span {
-  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   font-size: 0.95em;
   color: #3e2c18;
@@ -332,7 +348,7 @@ tr:last-child td {
   letter-spacing: 0.5px;
 }
 .eq-y-axis-col .mid {
-  color: #bfa14a;
+  color: var(--color-gold);
   background: #f8f7f3;
 }
 
@@ -340,10 +356,10 @@ tr:last-child td {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  background: linear-gradient(90deg, #f8f8f8 0%, #e0e0e0 100%);
+  background: linear-gradient(90deg, var(--color-bg) 0%, var(--color-bg-dark) 100%);
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(60,40,20,0.10), 0 0 0 6px #e7e3d0 inset;
-  border: 3px solid #bfa14a;
+  border: 3px solid var(--color-gold);
   padding: 2rem 1.5rem 1.5rem 1.5rem;
   margin: 2rem 0 1.5rem 0;
   width: fit-content;
@@ -400,7 +416,7 @@ tr:last-child td {
   width: 44px;
   text-align: center;
   color: #181614;
-  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   font-size: 0.80em;
   letter-spacing: 0.1px;
@@ -438,7 +454,7 @@ tr:last-child td {
   border: none;
   color: #181614;
   letter-spacing: 0.5px;
-  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-family: var(--font-main);
   font-weight: 300;
   box-shadow: none;
   align-self: stretch;
@@ -463,13 +479,13 @@ tr:last-child td {
   gap: 0;
 }
 .eq-lcd2-tuning-values-box.green {
-  border-color: #2ecc40;
+  border-color: var(--color-green);
 }
 .eq-lcd2-tuning-values-box.red {
-  border-color: #e74c3c;
+  border-color: var(--color-red);
 }
 .eq-lcd2-tuning-values-box.blue {
-  border-color: #2980ef;
+  border-color: var(--color-blue);
 }
 .eq-lcd2-tuning-values-box span {
   width: 44px;
@@ -477,7 +493,7 @@ tr:last-child td {
   color: #181614;
   font-weight: 400;
   font-size: 0.95em;
-  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  font-family: var(--font-main);
   letter-spacing: 0.1px;
 }
 .eq-lcd2-tuning-row .eq-lcd2-tuning-values-box span {
