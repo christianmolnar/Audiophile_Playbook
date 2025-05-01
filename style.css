@@ -950,3 +950,110 @@ footer.bottom-nav {
   }
 }
 /* --- END BOTTOM NAV STYLES --- */
+
+/* --- CONTACT MODAL STYLES --- */
+.contact-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(24, 22, 20, 0.45);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.contact-modal {
+  background: #fff8ef;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(191,161,74,0.18), 0 2px 12px #bfa14a33;
+  padding: 2.2rem 2.2rem 1.5rem 2.2rem;
+  min-width: 320px;
+  max-width: 95vw;
+  width: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.contact-modal h2 {
+  font-family: var(--font-heading);
+  color: #8b6a3a;
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+.contact-modal-close {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  background: none;
+  border: none;
+  font-size: 2.1rem;
+  color: #8b6a3a;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 1;
+}
+.contact-modal-close:hover {
+  color: #bfa14a;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.contact-form label {
+  font-family: var(--font-main);
+  font-weight: 600;
+  color: #8b6a3a;
+  margin-bottom: 0.2rem;
+  font-size: 1.08em;
+}
+.contact-form input,
+.contact-form textarea {
+  font-family: var(--font-main);
+  font-size: 1em;
+  border: 1.5px solid #bfa14a;
+  border-radius: 7px;
+  padding: 0.5em 0.7em;
+  background: #fff;
+  color: #181614;
+  margin-bottom: 0.2rem;
+  transition: border 0.2s;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #8b6a3a;
+  outline: none;
+}
+.contact-form button[type="submit"] {
+  background: #bfa14a;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 1.1em;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  padding: 0.7em 0;
+  margin-top: 0.5em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.contact-form button[type="submit"]:hover {
+  background: #8b6a3a;
+}
+.contact-form-thankyou {
+  text-align: center;
+  color: #8b6a3a;
+  font-size: 1.2em;
+  margin-top: 1.5em;
+  font-family: var(--font-heading);
+}
+@media (max-width: 500px) {
+  .contact-modal {
+    padding: 1.1rem 0.5rem 1rem 0.5rem;
+    min-width: 0;
+    width: 98vw;
+  }
+}
+/* --- END CONTACT MODAL STYLES --- */
