@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CA1000T Playbook</title>
+  <title>ACRO CA1000T Playbook</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,12 +14,61 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
-<img src="assets/CA1000T.jpg" alt="Astell&Kern CA1000T" class="product-image">
-<div class="card">
-  <h1>CA1000T Playbook</h1>
-  <p>Coming soon...</p>
+<div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
+  <h1 style="text-align: center; margin-bottom: 0.2rem;">Astell & Kern ACRO CA1000T</h1>
+  <div style="text-align: center; color: #181614; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 400; margin-bottom: 0.7rem;">Playbook & Output Mode Guide</div>
+  <div style="text-align: center; margin: 1.2rem 0 1.8rem 0; font-size: 1.18em; color: #3e2c18; font-family: var(--font-main); font-weight: 400; max-width: 700px;">
+    The ACRO CA1000T is a unique DAP/desktop hybrid with a world-first: you can blend between pure solid state (OP AMP) and pure vacuum tube output, letting you dial in your perfect sound. This page summarizes how its settings compare to the KANN Max, and how to use the Tube/Hybrid/OP output for the best listening experience!
+  </div>
+  <img src="assets/CA1000T.jpg" alt="Astell&Kern CA1000T" class="product-image" style="margin-bottom: 2rem;">
+  <div class="card" style="max-width: 900px;">
+    <h2>CA1000T vs KANN Max: Feature Comparison</h2>
+    <table>
+      <thead>
+        <tr><th>Feature</th><th>KANN Max</th><th>CA1000T</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Frequency choices</td><td>Fixed list (30, 45, 60 Hz, etc.)</td><td>Same (fixed list)</td></tr>
+        <tr><td>Gain adjustment</td><td>-5.0 to +5.0 dB (0.1 dB steps)</td><td>Same</td></tr>
+        <tr><td>Q factor adjustment</td><td>1.0 to 4.0 (0.1 steps)</td><td>Same</td></tr>
+        <tr><td>Number of bands</td><td>20 (fixed bands)</td><td>Same</td></tr>
+        <tr><td>Amp Gain Settings</td><td>Low, Mid, High, Super</td><td>Same</td></tr>
+        <tr><td>Special Feature</td><td>None</td><td>Tube/Hybrid Output Mode (Pure OP to Pure Tube via 7 steps)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card" style="max-width: 900px;">
+    <h2>CA1000T Output Modes: Tube, Hybrid, OP</h2>
+    <table>
+      <thead>
+        <tr><th>Output Setting</th><th>Sound Character</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pure OP AMP (solid state)</td><td>Fast, clean, punchy, maximum detail</td></tr>
+        <tr><td>Hybrid (slightly toward tube)</td><td>Adds warmth and roundness</td></tr>
+        <tr><td>Mid Hybrid (halfway)</td><td>Balanced: detail + musical warmth</td></tr>
+        <tr><td>Near Tube</td><td>Softens highs, enhances mids, bass warmth</td></tr>
+        <tr><td>Pure Tube</td><td>Dreamy, lush, very musical, but slightly softer focus</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top: 1.2rem; color: #3e2c18; font-size: 1.08em; text-align: center;">
+      <b>Tip:</b> You can blend between pure solid state and pure tube warmth in 7 steps for your perfect flavor!
+    </div>
+  </div>
+  <div class="card" style="max-width: 900px;">
+    <h2>Recommended Output Modes for Each Tuning</h2>
+    <table>
+      <thead>
+        <tr><th>Tuning Style</th><th>Best Output Mode</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Musical Warmth</td><td>Mid Hybrid (perfect balance of clarity and musicality)</td></tr>
+        <tr><td>Max Bass Fun</td><td>Pure OP AMP (for maximum slam and attack)</td></tr>
+        <tr><td>Ultimate Relax</td><td>Near Pure Tube (warmest, smoothest, lushest)</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<!-- Bottom Navigation Section for Variety -->
 <footer class="bottom-nav">
   <div class="bottom-nav-inner">
     <a href="index.html">Home</a>
@@ -33,5 +82,51 @@
     <a href="#contact">Contact</a>
   </div>
 </footer>
+<!-- Contact Modal -->
+<div id="contact-modal" class="contact-modal-overlay" style="display:none;">
+  <div class="contact-modal">
+    <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
+    <h2>Contact</h2>
+    <form action="https://formspree.io/f/xovdeqpa" method="POST" class="contact-form">
+      <label for="contact-name">Name:</label>
+      <input type="text" id="contact-name" name="name" required>
+      <label for="contact-subject">Subject:</label>
+      <input type="text" id="contact-subject" name="subject" required>
+      <label for="contact-message">Message:</label>
+      <textarea id="contact-message" name="message" rows="5" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <div class="contact-form-thankyou" style="display:none;">Thank you for your message!</div>
+  </div>
+</div>
+<script>
+function openContactModal() {
+  document.getElementById('contact-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeContactModal() {
+  document.getElementById('contact-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+[...document.querySelectorAll('a[href="#contact"]')].forEach(el => {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    openContactModal();
+  });
+});
+document.getElementById('contact-modal-close').onclick = closeContactModal;
+document.getElementById('contact-modal').onclick = function(e) {
+  if (e.target === this) closeContactModal();
+};
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    setTimeout(function() {
+      contactForm.style.display = 'none';
+      document.querySelector('.contact-form-thankyou').style.display = 'block';
+    }, 100);
+  });
+}
+</script>
 </body>
 </html>

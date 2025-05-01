@@ -116,7 +116,7 @@ main, .content {
 
 .card h2, h2 {
   font-family: var(--font-heading) !important;
-  font-size: 2.68rem !important; /* 15% smaller than previous 3.15rem */
+  font-size: 2rem !important;
   font-weight: 400;
   color: #181614 !important;
   letter-spacing: 1px;

@@ -51,54 +51,6 @@
   <!-- End Kann Max Main Specs Section -->
   <img src="assets/Astell_Kern_KANN_Max.jpg" alt="Astell&Kern Kann Max" class="product-image">
 </div>
-<!-- Contact Modal -->
-<div id="contact-modal" class="contact-modal-overlay" style="display:none;">
-  <div class="contact-modal">
-    <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
-    <h2>Contact</h2>
-    <form action="https://formspree.io/f/xovdeqpa" method="POST" class="contact-form">
-      <label for="contact-name">Name:</label>
-      <input type="text" id="contact-name" name="name" required>
-      <label for="contact-subject">Subject:</label>
-      <input type="text" id="contact-subject" name="subject" required>
-      <label for="contact-message">Message:</label>
-      <textarea id="contact-message" name="message" rows="5" required></textarea>
-      <button type="submit">Send</button>
-    </form>
-    <div class="contact-form-thankyou" style="display:none;">Thank you for your message!</div>
-  </div>
-</div>
-<script>
-function openContactModal() {
-  document.getElementById('contact-modal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-function closeContactModal() {
-  document.getElementById('contact-modal').style.display = 'none';
-  document.body.style.overflow = '';
-}
-// Open modal on nav/footer Contact click
-[...document.querySelectorAll('a[href="#contact"]')].forEach(el => {
-  el.addEventListener('click', function(e) {
-    e.preventDefault();
-    openContactModal();
-  });
-});
-document.getElementById('contact-modal-close').onclick = closeContactModal;
-document.getElementById('contact-modal').onclick = function(e) {
-  if (e.target === this) closeContactModal();
-};
-// Optional: Show thank you message after submit
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
-    setTimeout(function() {
-      contactForm.style.display = 'none';
-      document.querySelector('.contact-form-thankyou').style.display = 'block';
-    }, 100);
-  });
-}
-</script>
 <script>
 // EQ data for each preset, per headphone
 const eqPresets = [
@@ -1078,6 +1030,51 @@ window.addEventListener('DOMContentLoaded', () => {
     <a href="#contact">Contact</a>
   </div>
 </footer>
+<!-- Contact Modal -->
+<div id="contact-modal" class="contact-modal-overlay" style="display:none;">
+  <div class="contact-modal">
+    <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
+    <h2>Contact</h2>
+    <form action="https://formspree.io/f/xovdeqpa" method="POST" class="contact-form">
+      <label for="contact-name">Name:</label>
+      <input type="text" id="contact-name" name="name" required>
+      <label for="contact-subject">Subject:</label>
+      <input type="text" id="contact-subject" name="subject" required>
+      <label for="contact-message">Message:</label>
+      <textarea id="contact-message" name="message" rows="5" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+    <div class="contact-form-thankyou" style="display:none;">Thank you for your message!</div>
+  </div>
 </div>
+<script>
+function openContactModal() {
+  document.getElementById('contact-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeContactModal() {
+  document.getElementById('contact-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+[...document.querySelectorAll('a[href="#contact"]')].forEach(el => {
+  el.addEventListener('click', function(e) {
+    e.preventDefault();
+    openContactModal();
+  });
+});
+document.getElementById('contact-modal-close').onclick = closeContactModal;
+document.getElementById('contact-modal').onclick = function(e) {
+  if (e.target === this) closeContactModal();
+};
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    setTimeout(function() {
+      contactForm.style.display = 'none';
+      document.querySelector('.contact-form-thankyou').style.display = 'block';
+    }, 100);
+  });
+}
+</script>
 </body>
 </html>
