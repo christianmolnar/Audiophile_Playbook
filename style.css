@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
 :root {
+  --color-musicalwarmth: #bfa14a; /* gold, musical warmth */
+  --color-maxbass: #181614;   /* deep black/brown, max bass */
+  --color-ultimaterelax: #bfc0c0;  /* silver/blueish, ultimate relax */
   --color-green: #bfa14a; /* dark gold */
   --color-red: #181614;   /* black */
   --color-blue: #bfc0c0;  /* silver */
@@ -531,6 +534,15 @@ tr:last-child td {
 }
 .eq-lcd2-tuning-values-box.blue {
   border-color: var(--color-blue);
+}
+.eq-lcd2-tuning-values-box.musicalwarmth {
+  border-color: var(--color-musicalwarmth);
+}
+.eq-lcd2-tuning-values-box.maxbass {
+  border-color: var(--color-maxbass);
+}
+.eq-lcd2-tuning-values-box.ultimaterelax {
+  border-color: var(--color-ultimaterelax);
 }
 .eq-lcd2-tuning-values-box span {
   width: 44px;
