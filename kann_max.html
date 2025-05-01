@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>KANN Max Playbook</title>
+  <title>Kann Max Playbook</title>
   <link rel="stylesheet" href="style.css?v=20250430">
 </head>
 <body>
 <nav class="main-nav">
-  <a href="index.html">Home</a>
-  <a href="kann_max.html">KANN Max Playbook</a>
-  <a href="ca1000t.html">CA1000T Playbook</a>
-  <a href="story.html">Story</a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="kann_max.html">Kann Max</a></li>
+    <li><a href="acroca1000t.html">ACRO CA1000T</a></li>
+    <li><a href="story.html">Story</a></li>
+  </ul>
 </nav>
 <div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
-  <h1 style="text-align: center; margin-bottom: 0.2rem;">Astell & Kern KANN MAX</h1>
+  <h1 style="text-align: center; margin-bottom: 0.2rem;">Astell & Kern Kann Max</h1>
   <div style="text-align: center; color: #181614; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 400; margin-bottom: 0.7rem;">Headphone Playbook</div>
   <div style="text-align: center; margin: 1.2rem 0 1.8rem 0; font-size: 1.18em; color: #3e2c18; font-family: var(--font-main); font-weight: 400;">
-    I created this page to share my favorite EQ tuning ideas for Warm, Max Bass, and Relaxed curve signatures on the KANN MAX, paired with my headphones and IEMs. This project was made in partnership with Orionis Cantus (OpenAI, ChatGPT)—a very helpful (and sometimes a bit misleading!) AI agent. I hope these tunings inspire your own listening adventures!
+    I created this page to share my favorite EQ tuning ideas for Warm, Max Bass, and Relaxed curve signatures on the Kann Max, paired with my headphones and IEMs. This project was made in partnership with Orionis Cantus (OpenAI, ChatGPT)—a very helpful (and sometimes a bit misleading!) AI agent. I hope these tunings inspire your own listening adventures!
   </div>
   <div class="description-box">
     <p style="margin-bottom:0; font-size:1.1em; color:#3e2c18; text-align:center;">
-      The Astell&Kern KANN Max is A&K's flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the KANN Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
+      The Astell&Kern Kann Max is A&K's flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the Kann Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
     </p>
   </div>
   <!-- Kann Max Main Specs Section -->
@@ -46,7 +48,7 @@
     </div>
   </div>
   <!-- End Kann Max Main Specs Section -->
-  <img src="assets/Astell_Kern_KANN_Max.jpg" alt="Astell&Kern KANN Max" class="product-image">
+  <img src="assets/Astell_Kern_KANN_Max.jpg" alt="Astell&Kern Kann Max" class="product-image">
 </div>
 <script>
 // EQ data for each preset, per headphone
@@ -196,13 +198,14 @@ const lcd2Bands = [
 const lcd2Colors = getGraphColors();
 const lcd2Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const lcd2Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
+const tuningClassNames = ["musicalwarmth", "maxbass", "ultimaterelax"];
 function formatFreq(f) { return f >= 1000 ? (f/1000).toFixed(f % 1000 === 0 ? 0 : 1) + 'k' : f; }
 function getGraphColors() {
   const root = getComputedStyle(document.documentElement);
   return [
-    root.getPropertyValue('--color-green').trim(),
-    root.getPropertyValue('--color-red').trim(),
-    root.getPropertyValue('--color-blue').trim()
+    root.getPropertyValue('--color-musicalwarmth').trim(),
+    root.getPropertyValue('--color-maxbass').trim(),
+    root.getPropertyValue('--color-ultimaterelax').trim()
   ];
 }
 function drawLcd2EQ() {
@@ -212,25 +215,25 @@ function drawLcd2EQ() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
   const W = canvas.width, H = canvas.height, minGain = -5, maxGain = 5;
   const bandCount = lcd2Freqs.length;
-  // Calculate leftPad and rightPad so the first and last dots align with the first and last value columns
   const valueBoxWidth = 730; // px, must match .eq-lcd2-tuning-values-box width in CSS
   const colWidth = valueBoxWidth / (bandCount); // 20 columns, 730/20 = 36.5px per col
   // Move the graph about 70px to the right for alignment
   const leftPad = colWidth/2 + 100 + 17; // shifted 13px right
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  // Draw y axis lines and labels
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = lcd2Colors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
-
+  ctx.font = '13px Montserrat'; ctx.fillStyle = lcd2Colors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   // Draw fine horizontal grid lines at -5, -2.5, 0, 2.5, 5 dB
   ctx.save();
   ctx.strokeStyle = 'rgba(80,80,80,0.22)'; // a little darker gray
@@ -274,8 +277,8 @@ function renderLcd2TuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${lcd2Labels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${lcd2Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<lcd2Bands[t].length;i++) {
       html += `<span>${lcd2Bands[t][i]}</span>`;
     }
@@ -287,13 +290,14 @@ function renderLcd2FreqRow() {
   const container = document.getElementById('lcd2-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
-  // No label for frequency row
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<lcd2Freqs.length;i++) {
     html += `<span>${formatFreq(lcd2Freqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawLcd2EQ();
@@ -322,17 +326,20 @@ function drawCelesteeEQ() {
   const colWidth = valueBoxWidth / (bandCount);
   const leftPad = colWidth/2 + 100 + 17;
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = celesteeColors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.font = '13px Montserrat'; ctx.fillStyle = celesteeColors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   ctx.save();
   ctx.strokeStyle = 'rgba(80,80,80,0.22)';
   ctx.lineWidth = 0.5;
@@ -372,8 +379,8 @@ function renderCelesteeTuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${celesteeLabels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${celesteeLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<celesteeBands[t].length;i++) {
       html += `<span>${celesteeBands[t][i]}</span>`;
     }
@@ -385,12 +392,14 @@ function renderCelesteeFreqRow() {
   const container = document.getElementById('celestee-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<celesteeFreqs.length;i++) {
     html += `<span>${formatFreq(celesteeFreqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawCelesteeEQ();
@@ -488,17 +497,20 @@ function drawHd800EQ() {
   const colWidth = valueBoxWidth / (bandCount);
   const leftPad = colWidth/2 + 100 + 17;
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = hd800Colors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.font = '13px Montserrat'; ctx.fillStyle = hd800Colors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   ctx.save();
   ctx.strokeStyle = 'rgba(80,80,80,0.22)';
   ctx.lineWidth = 0.5;
@@ -538,8 +550,8 @@ function renderHd800TuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${hd800Labels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${hd800Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<hd800Bands[t].length;i++) {
       html += `<span>${hd800Bands[t][i]}</span>`;
     }
@@ -551,12 +563,14 @@ function renderHd800FreqRow() {
   const container = document.getElementById('hd800-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<hd800Freqs.length;i++) {
     html += `<span>${formatFreq(hd800Freqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawHd800EQ();
@@ -619,20 +633,20 @@ function drawHd599EQ() {
   const colWidth = valueBoxWidth / (bandCount);
   const leftPad = colWidth/2 + 100 + 17;
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = hd599Colors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
-  ctx.save();
-  ctx.strokeStyle = 'rgba(80,80,80,0.22)';
-  ctx.lineWidth = 0.5;
+  ctx.font = '13px Montserrat'; ctx.fillStyle = hd599Colors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   const gridVals = [-5, -2.5, 0, 2.5, 5];
   gridVals.forEach(val => {
     const y = topPad + ((maxGain-val)/(maxGain-minGain))*graphH;
@@ -669,8 +683,8 @@ function renderHd599TuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${hd599Labels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${hd599Labels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<hd599Bands[t].length;i++) {
       html += `<span>${hd599Bands[t][i]}</span>`;
     }
@@ -682,12 +696,14 @@ function renderHd599FreqRow() {
   const container = document.getElementById('hd599-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<hd599Freqs.length;i++) {
     html += `<span>${formatFreq(hd599Freqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawHd599EQ();
@@ -750,17 +766,20 @@ function drawAudivinaEQ() {
   const colWidth = valueBoxWidth / (bandCount);
   const leftPad = colWidth/2 + 100 + 17;
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = audivinaColors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.font = '13px Montserrat'; ctx.fillStyle = audivinaColors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   ctx.save();
   ctx.strokeStyle = 'rgba(80,80,80,0.22)';
   ctx.lineWidth = 0.5;
@@ -800,8 +819,8 @@ function renderAudivinaTuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${audivinaLabels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${audivinaLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<audivinaBands[t].length;i++) {
       html += `<span>${audivinaBands[t][i]}</span>`;
     }
@@ -813,12 +832,14 @@ function renderAudivinaFreqRow() {
   const container = document.getElementById('audivina-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<audivinaFreqs.length;i++) {
     html += `<span>${formatFreq(audivinaFreqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawAudivinaEQ();
@@ -881,17 +902,20 @@ function drawAnandaEQ() {
   const colWidth = valueBoxWidth / (bandCount);
   const leftPad = colWidth/2 + 100 + 17;
   const rightPad = (colWidth/2) + 50;
-  const topPad = 20, botPad = 40;
+  const topPad = 20, botPad = 20; // reduced from 40 to 20 to cut blank space
   const graphW = W - leftPad - rightPad;
   const graphH = H - topPad - botPad;
-  ctx.strokeStyle = '#bfa14a';
+  // Draw single gold y axis line and labels
+  ctx.save();
+  ctx.strokeStyle = anandaColors[0];
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(leftPad, topPad); ctx.lineTo(leftPad, topPad+graphH); ctx.stroke();
-  ctx.font = '13px Montserrat'; ctx.fillStyle = '#bfa14a'; ctx.textAlign = 'right';
-  ctx.fillText('+5dB', leftPad-8, topPad+5);
-  ctx.fillText('0', leftPad-8, topPad+graphH/2+5);
-  ctx.fillText('-5dB', leftPad-8, topPad+graphH+5);
+  ctx.font = '13px Montserrat'; ctx.fillStyle = anandaColors[0]; ctx.textAlign = 'right';
+  ctx.fillText('+5dB', leftPad-10, topPad+5);
+  ctx.fillText('0', leftPad-10, topPad+graphH/2+5);
+  ctx.fillText('-5dB', leftPad-10, topPad+graphH+5);
+  ctx.restore();
   ctx.save();
   ctx.strokeStyle = 'rgba(80,80,80,0.22)';
   ctx.lineWidth = 0.5;
@@ -931,8 +955,8 @@ function renderAnandaTuningRows() {
   let html = '';
   for(let t=0;t<3;t++) {
     html += `<div class='eq-lcd2-tuning-row'>
-      <span class='label ${['green','red','blue'][t]}'>${anandaLabels[t]}</span>
-      <span class='eq-lcd2-tuning-values-box ${['green','red','blue'][t]}'>`;
+      <span class='label ${tuningClassNames[t]}'>${anandaLabels[t]}</span>
+      <span class='eq-lcd2-tuning-values-box ${tuningClassNames[t]}'>`;
     for(let i=0;i<anandaBands[t].length;i++) {
       html += `<span>${anandaBands[t][i]}</span>`;
     }
@@ -944,12 +968,14 @@ function renderAnandaFreqRow() {
   const container = document.getElementById('ananda-freq-row');
   if (!container) return;
   let html = `<div class='eq-lcd2-tuning-row'>`;
+  html += `<span class='label' style='width:120px;min-width:120px;max-width:120px;'></span>`;
   html += `<span class='eq-lcd2-tuning-values-box' style='border-color:#fff;'>`;
   for(let i=0;i<anandaFreqs.length;i++) {
     html += `<span>${formatFreq(anandaFreqs[i])}</span>`;
   }
   html += `</span></div>`;
   container.innerHTML = html;
+  container.style.marginBottom = '18px'; // add separation below frequencies
 }
 window.addEventListener('DOMContentLoaded', () => {
   drawAnandaEQ();
