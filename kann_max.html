@@ -6,10 +6,36 @@
 </head>
 <body>
 <div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
-  <h1 style="text-align: center;">KANN Max Playbook</h1>
-  <p style="margin-bottom:2rem; font-size:1.1em; color:#3e2c18; max-width:700px; text-align:center;">
-    The Astell&Kern KANN Max is a flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the KANN Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
-  </p>
+  <h1 style="text-align: center; margin-bottom: 0.7rem;">Astell & Kern KANN MAX Playbook</h1>
+  <div class="description-box">
+    <p style="margin-bottom:0; font-size:1.1em; color:#3e2c18; text-align:center;">
+      The Astell&Kern KANN Max is A&K's flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the KANN Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
+    </p>
+  </div>
+  <!-- Kann Max Main Specs Section -->
+  <div class="kannmax-specs-container">
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Output Power</span><span class="spec-value">15Vrms (Balanced)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">DAC Chip</span><span class="spec-value">ESS ES9038Q2M x4</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Supported Formats</span><span class="spec-value">PCM 32bit/768kHz, DSD512, MQA</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Battery Life</span><span class="spec-value">~13 hours</span></div>
+    </div>
+    <div class="kannmax-specs-divider"></div>
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Weight</span><span class="spec-value">305g</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Storage</span><span class="spec-value">64GB + microSD (up to 1TB)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Display</span><span class="spec-value">4.1" 720x1280 IPS</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Dimensions</span><span class="spec-value">68.3 x 117 x 23.6 mm</span></div>
+    </div>
+    <div class="kannmax-specs-divider"></div>
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Output Impedance</span><span class="spec-value">1Ω (Balanced)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">SNR</span><span class="spec-value">130dB (Balanced)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">THD+N</span><span class="spec-value">0.0003%</</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Outputs</span><span class="spec-value">2.5mm, 3.5mm, 4.4mm</span></div>
+    </div>
+  </div>
+  <!-- End Kann Max Main Specs Section -->
   <img src="assets/Astell_Kern_KANN_Max.jpg" alt="Astell&Kern KANN Max" class="product-image">
 </div>
 <script>
@@ -119,10 +145,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Audeze LCD-2 Classic</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/LCD-2-1.jpg" alt="Audeze LCD-2 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Audeze LCD-2 Classic -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/LCD-2-1.jpg" alt="Audeze LCD-2 Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">A legendary planar magnetic headphone, the LCD-2 Classic is beloved for its rich, smooth sound and deep, controlled bass. It’s a favorite for relaxed, immersive listening and excels with genres from jazz to electronic. The open-back design delivers a wide, natural soundstage.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> Planar Magnetic</li>
+        <li><b>Impedance:</b> 70Ω</li>
+        <li><b>Sensitivity:</b> 101dB/1mW</li>
+        <li><b>Weight:</b> 550g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> KZ ZAS, TangZu Shimin Li</div>
 </div>
-<p><strong>Matching IEMs:</strong> KZ ZAS, TangZu Shimin Li</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -144,10 +183,18 @@ const lcd2Bands = [
   [4.5,4.2,3.8,3.1,2.2,1.2,0.5,-0.3,-1,-1.5,-1.2,-0.2,0.4,1,0.9,0.5,0,-0.3,-0.7,-1], // red
   [1.5,1.3,1,0.5,0.1,-0.3,-0.5,-0.8,-1,-0.8,-0.4,0.2,0.4,0.6,0.3,0,-0.3,-0.5,-0.7,-1] // blue
 ];
-const lcd2Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const lcd2Colors = getGraphColors();
 const lcd2Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const lcd2Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function formatFreq(f) { return f >= 1000 ? (f/1000).toFixed(f % 1000 === 0 ? 0 : 1) + 'k' : f; }
+function getGraphColors() {
+  const root = getComputedStyle(document.documentElement);
+  return [
+    root.getPropertyValue('--color-green').trim(),
+    root.getPropertyValue('--color-red').trim(),
+    root.getPropertyValue('--color-blue').trim()
+  ];
+}
 function drawLcd2EQ() {
   const canvas = document.getElementById('lcd2-eq-canvas');
   if (!canvas) return;
@@ -251,7 +298,7 @@ const celesteeBands = [
   [3.2,3,2.6,2,1.2,0.5,0,-0.7,-1.1,-1.6,-1.3,-0.5,0.2,0.9,0.8,0.4,0,-0.4,-0.6,-1], // Max Bass Fun
   [1,0.9,0.7,0.3,0,-0.2,-0.4,-0.7,-1,-0.8,-0.3,0.1,0.2,0.4,0.1,0,-0.3,-0.5,-0.6,-0.9] // Ultimate Relax
 ];
-const celesteeColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const celesteeColors = getGraphColors();
 const celesteeLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const celesteeFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function drawCelesteeEQ() {
@@ -344,10 +391,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Focal Celestee</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/CA1000T.jpg" alt="Focal Celestee Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Focal Celestee -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/CA1000T.jpg" alt="Focal Celestee Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">The Celestee is a closed-back dynamic headphone with a punchy, lively sound and luxurious build. Its tight bass and sparkling highs make it great for modern music, and its isolation is perfect for on-the-go or office use.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> 40mm Aluminum/Magnesium Dynamic</li>
+        <li><b>Impedance:</b> 35Ω</li>
+        <li><b>Sensitivity:</b> 105dB/1mW</li>
+        <li><b>Weight:</b> 430g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> KZ ZS10 Pro, Moondrop Variations</div>
 </div>
-<p><strong>Matching IEMs:</strong> KZ ZS10 Pro, Moondrop Variations</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -366,10 +426,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Sennheiser HD800</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/LCD-2.jpg" alt="Sennheiser HD800 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Sennheiser HD800 -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/LCD-2.jpg" alt="Sennheiser HD800 Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">Renowned for its immense soundstage and detail, the HD800 is a reference open-back headphone. It’s ideal for classical, acoustic, and critical listening, revealing every nuance in your music.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> 56mm Dynamic</li>
+        <li><b>Impedance:</b> 300Ω</li>
+        <li><b>Sensitivity:</b> 102dB/1V</li>
+        <li><b>Weight:</b> 330g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> Moondrop Stellaris</div>
 </div>
-<p><strong>Matching IEMs:</strong> Moondrop Stellaris</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -391,7 +464,7 @@ const hd800Bands = [
   [4,3.6,3.2,2.5,1.7,0.8,0.2,-0.6,-1.3,-1.8,-1.5,-0.7,0.3,1,0.9,0.4,0,-0.4,-0.7,-1.1],
   [1.3,1.1,0.8,0.4,0,-0.3,-0.6,-0.9,-1.2,-0.9,-0.5,0.1,0.3,0.5,0.2,0,-0.4,-0.6,-0.8,-1]
 ];
-const hd800Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const hd800Colors = getGraphColors();
 const hd800Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const hd800Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function drawHd800EQ() {
@@ -484,10 +557,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Sennheiser HD599</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/LCD-2.jpg" alt="Sennheiser HD599 Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Sennheiser HD599 -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/LCD-2.jpg" alt="Sennheiser HD599 Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">A fantastic entry-level open-back, the HD599 offers a warm, comfortable sound signature and lightweight fit. It’s great for long listening sessions and pairs well with a wide range of music.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> Dynamic</li>
+        <li><b>Impedance:</b> 50Ω</li>
+        <li><b>Sensitivity:</b> 106dB/1V</li>
+        <li><b>Weight:</b> 250g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> 7Hz x Crinacle Zero:Red, KZ ZEX Pro</div>
 </div>
-<p><strong>Matching IEMs:</strong> 7Hz x Crinacle Zero:Red, KZ ZEX Pro</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -509,7 +595,7 @@ const hd599Bands = [
   [3.5,3.2,2.7,2,1.1,0.3,-0.3,-0.9,-1.4,-1.7,-1.2,-0.4,0.3,0.8,0.6,0.3,0,-0.4,-0.6,-0.9],
   [1,0.9,0.7,0.3,0,-0.3,-0.5,-0.8,-1.1,-0.9,-0.4,0.2,0.3,0.4,0.2,0,-0.3,-0.5,-0.7,-1]
 ];
-const hd599Colors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const hd599Colors = getGraphColors();
 const hd599Labels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const hd599Freqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function drawHd599EQ() {
@@ -602,10 +688,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Hifiman Audivina</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/LCD-2.jpg" alt="Hifiman Audivina Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Hifiman Audivina -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/LCD-2.jpg" alt="Hifiman Audivina Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">A closed-back planar magnetic headphone with a unique resonance chamber, the Audivina delivers fast, detailed sound and strong bass. It’s excellent for both home and portable use, with great isolation.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> Planar Magnetic</li>
+        <li><b>Impedance:</b> 20Ω</li>
+        <li><b>Sensitivity:</b> 97dB/1mW</li>
+        <li><b>Weight:</b> 470g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> KZ ZSN Pro X, Letshuoer DZ4</div>
 </div>
-<p><strong>Matching IEMs:</strong> KZ ZSN Pro X, Letshuoer DZ4</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -627,7 +726,7 @@ const audivinaBands = [
   [4.2,3.9,3.5,2.7,1.8,0.9,0.2,-0.6,-1.1,-1.6,-1.3,-0.6,0.2,0.9,0.7,0.4,0,-0.4,-0.6,-1],
   [1.4,1.2,0.9,0.4,0,-0.3,-0.5,-0.9,-1.2,-0.8,-0.3,0.2,0.4,0.5,0.2,0,-0.3,-0.5,-0.8,-1.1]
 ];
-const audivinaColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const audivinaColors = getGraphColors();
 const audivinaLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const audivinaFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function drawAudivinaEQ() {
@@ -720,10 +819,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <div class="card">
 <h2>Hifiman Ananda Nano</h2>
-<div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 1rem;">
-  <img src="assets/LCD-2.jpg" alt="Hifiman Ananda Nano Headphones" style="max-width: 320px; width: 100%; border-radius: 12px; box-shadow: 0 2px 12px rgba(60,40,20,0.12);" />
+<!-- Headphone Blurb: Hifiman Ananda Nano -->
+<div class="hp-info-box">
+  <div class="hp-info-flex">
+    <img src="assets/LCD-2.jpg" alt="Hifiman Ananda Nano Headphones" class="hp-info-img" />
+    <div class="hp-blurb-content">
+      <div class="hp-blurb-desc">The Ananda Nano features an ultra-thin diaphragm for lightning-fast response and airy, open sound. It’s a superb all-rounder for those who want detail, comfort, and a wide soundstage.</div>
+      <ul class="hp-blurb-specs">
+        <li><b>Driver:</b> Planar Magnetic</li>
+        <li><b>Impedance:</b> 14Ω</li>
+        <li><b>Sensitivity:</b> 94dB/1mW</li>
+        <li><b>Weight:</b> 419g</li>
+      </ul>
+    </div>
+  </div>
+  <div class="hp-matching-iems"><strong>Matching IEMs:</strong> Simgot EW200, Dunu Titan S</div>
 </div>
-<p><strong>Matching IEMs:</strong> Simgot EW200, Dunu Titan S</p>
+<!-- End Headphone Blurb -->
 <div class="eq-lcd2-multibox">
   <div class="eq-lcd2-vertbar">
     <div class="eq-y-axis-col">
@@ -745,7 +857,7 @@ const anandaBands = [
   [3.8,3.5,3,2.4,1.5,0.7,0,-0.7,-1.3,-1.7,-1.2,-0.4,0.3,0.9,0.7,0.3,0,-0.3,-0.6,-1],
   [1.2,1,0.7,0.3,0,-0.3,-0.5,-0.8,-1,-0.9,-0.4,0.1,0.3,0.4,0.2,0,-0.3,-0.5,-0.7,-1]
 ];
-const anandaColors = ["#2ecc40", "#e74c3c", "#2980ef"];
+const anandaColors = getGraphColors();
 const anandaLabels = ["Musical Warmth", "Max Bass Fun", "Ultimate Relax"];
 const anandaFreqs = [30,45,60,90,120,180,250,380,500,750,1000,1500,2000,3000,4000,6000,8000,12000,14000,18000];
 function drawAnandaEQ() {
@@ -839,7 +951,7 @@ window.addEventListener('DOMContentLoaded', () => {
 <h2>Cheat Sheet</h2>
 <table>
 <thead><tr><th>Headphone</th><th>Tuning</th><th>Gain</th><th>DAC Filter</th></tr></thead>
-<tbody>
+<tbody></tbody>
 <tr><td>Audeze LCD-2 Classic</td><td>Musical Warmth</td><td>Mid</td><td>Apodizing Fast Roll-off</td></tr>
 <tr><td>Audeze LCD-2 Classic</td><td>Max Bass Fun</td><td>Mid</td><td>Minimum Phase Fast Roll-off</td></tr>
 <tr><td>Audeze LCD-2 Classic</td><td>Ultimate Relax</td><td>Mid</td><td>Minimum Phase Slow Roll-off</td></tr>
