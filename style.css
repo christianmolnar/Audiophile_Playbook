@@ -742,6 +742,11 @@ tr:last-child td {
 .hp-blurb-specs li {
   margin-bottom: 0.2em;
 }
+.hp-blurb-specs li b,
+.hp-blurb-specs li strong,
+.hp-matching-iems strong {
+  color: #181614 !important;
+}
 .hp-matching-iems {
   margin-top: 1.1rem;
   font-size: 1.08em;
