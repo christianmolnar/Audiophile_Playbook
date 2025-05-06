@@ -223,6 +223,16 @@ tr:last-child td {
   border-bottom: none;
 }
 
+/* Center specific columns in tables: Compliance, Price, Needle Price */
+table td:nth-child(2),
+table th:nth-child(2),
+table td:nth-child(4),
+table th:nth-child(4),
+table td:nth-child(7),
+table th:nth-child(7) {
+  text-align: center;
+}
+
 .eq-visualizer {
   display: flex;
   flex-direction: row;
@@ -836,6 +846,22 @@ tr:last-child td {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.table-scroll {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+  padding-left: 100px;
+  padding-right: 100px;
+  box-sizing: border-box;
+}
+@media (max-width: 700px) {
+  .table-scroll {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 /* --- NAV MENU STYLES --- */
