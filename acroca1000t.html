@@ -8,8 +8,19 @@
 <nav class="main-nav">
   <ul>
     <li><a href="index.html">Home</a></li>
-    <li><a href="kann_max.html">Kann Max</a></li>
-    <li><a href="acroca1000t.html">ACRO CA1000T</a></li>
+    <li class="dropdown">
+      <a href="javascript:void(0);" class="dropbtn">DACs</a>
+      <div class="dropdown-content">
+        <a href="kann_max.html">Kann Max</a>
+        <a href="acroca1000t.html">ACRO CA1000T</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="javascript:void(0);" class="dropbtn">Turntables</a>
+      <div class="dropdown-content">
+        <a href="kenwood_kd500.html">Kenwood KD-500</a>
+      </div>
+    </li>
     <li><a href="story.html">Story</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -20,6 +31,30 @@
   <div style="text-align: center; margin: 1.2rem 0 1.8rem 0; font-size: 1.18em; color: #3e2c18; font-family: var(--font-main); font-weight: 400; max-width: 700px;">
     The ACRO CA1000T is a unique DAP/desktop hybrid with a world-first: you can blend between pure solid state (OP AMP) and pure vacuum tube output, letting you dial in your perfect sound. <br><br>This page summarizes how its settings compare to the KANN Max, and how to use the Tube/Hybrid/OP output for the best listening experience!
   </div>
+  <!-- ACRO CA1000T Main Specs Section -->
+  <div class="kannmax-specs-container" style="margin-bottom: 1.5rem;"> <!-- Reusing Kann Max CSS for now -->
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Output Power</span><span class="spec-value">15Vrms (Bal, High)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">DAC Chip</span><span class="spec-value">ESS ES9068AS x4</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Tube Type</span><span class="spec-value">KORG Nutube 6P1 x2</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Supported Formats</span><span class="spec-value">PCM 32/384, DSD512, MQA</span></div>
+    </div>
+    <div class="kannmax-specs-divider"></div>
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Weight</span><span class="spec-value">919g</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Storage</span><span class="spec-value">256GB + microSD</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Display</span><span class="spec-value">4.1" 720x1280 Touch</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Dimensions</span><span class="spec-value">105x149x45 mm</span></div>
+    </div>
+    <div class="kannmax-specs-divider"></div>
+    <div class="kannmax-specs-col">
+      <div class="kannmax-spec-row"><span class="spec-label">Output Impedance</span><span class="spec-value">1Ω (Bal)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">SNR</span><span class="spec-value">128dB (Bal)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">THD+N</span><span class="spec-value">0.0004% (Bal)</span></div>
+      <div class="kannmax-spec-row"><span class="spec-label">Outputs</span><span class="spec-value">2.5, 3.5, 4.4, 6.35, XLR, RCA</span></div>
+    </div>
+  </div>
+  <!-- End ACRO CA1000T Main Specs Section -->
   <img src="assets/CA1000T.jpg" alt="Astell&Kern CA1000T" class="product-image" style="margin-bottom: 2rem;">
   <div class="card" style="max-width: 900px;">
     <h2>CA1000T vs KANN Max: Feature Comparison</h2>
@@ -76,6 +111,8 @@
     <a href="kann_max.html">Kann Max</a>
     <span class="divider">|</span>
     <a href="acroca1000t.html">ACRO CA1000T</a>
+    <span class="divider">|</span>
+    <a href="kenwood_kd500.html">Kenwood KD-500</a> <!-- Added link -->
     <span class="divider">|</span>
     <a href="story.html">Story</a>
     <span class="divider">|</span>

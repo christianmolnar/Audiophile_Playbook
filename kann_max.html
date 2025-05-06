@@ -8,8 +8,19 @@
 <nav class="main-nav">
   <ul>
     <li><a href="index.html">Home</a></li>
-    <li><a href="kann_max.html">Kann Max</a></li>
-    <li><a href="acroca1000t.html">ACRO CA1000T</a></li>
+    <li class="dropdown">
+      <a href="javascript:void(0);" class="dropbtn">DACs</a>
+      <div class="dropdown-content">
+        <a href="kann_max.html">Kann Max</a>
+        <a href="acroca1000t.html">ACRO CA1000T</a>
+      </div>
+    </li>
+    <li class="dropdown">
+      <a href="javascript:void(0);" class="dropbtn">Turntables</a>
+      <div class="dropdown-content">
+        <a href="kenwood_kd500.html">Kenwood KD-500</a>
+      </div>
+    </li>
     <li><a href="story.html">Story</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -17,14 +28,11 @@
 <div style="display: flex; flex-direction: column; align-items: center; margin-top: 2rem;">
   <h1 style="text-align: center; margin-bottom: 0.2rem;">Astell & Kern Kann Max</h1>
   <div style="text-align: center; color: #181614; font-family: var(--font-heading); font-size: 2.2rem; font-weight: 400; margin-bottom: 0.7rem;">Headphone Playbook</div>
-  <div style="text-align: center; margin: 1.2rem 0 1.8rem 0; font-size: 1.18em; color: #3e2c18; font-family: var(--font-main); font-weight: 400;">
-    I created this page to share my favorite EQ tuning ideas for Warm, Max Bass, and Relaxed curve signatures on the Kann Max, paired with my headphones and IEMs. This project was made in partnership with Orionis Cantus (OpenAI, ChatGPT)—a very helpful (and sometimes a bit misleading!) AI agent. I hope these tunings inspire your own listening adventures!
+  <!-- Standardized Intro Blurb -->
+  <div style="text-align: center; margin: 1.2rem 0 1.8rem 0; font-size: 1.18em; color: #3e2c18; font-family: var(--font-main); font-weight: 400; max-width: 700px;">
+    The Astell&Kern KANN Max is a powerhouse Digital Audio Player known for its high output and versatility. This page provides detailed Parametric EQ (PEQ) settings tailored for various headphones to achieve three distinct sound profiles: Musical Warmth, Max Bass Fun, and Ultimate Relax.
   </div>
-  <div class="description-box">
-    <p style="margin-bottom:0; font-size:1.1em; color:#3e2c18; text-align:center;">
-      The Astell&Kern Kann Max is A&K's flagship digital audio player (DAP) renowned for its powerful amplification, pristine sound quality, and versatile output options. Designed for audiophiles who demand uncompromising performance, the Kann Max delivers exceptional clarity, dynamic range, and detail, making it ideal for driving even the most demanding headphones. Its compact form factor, robust build, and advanced DAC/amp architecture ensure a premium listening experience whether at home or on the go.
-    </p>
-  </div>
+  <!-- Removed old intro divs -->
   <!-- Kann Max Main Specs Section -->
   <div class="kannmax-specs-container">
     <div class="kannmax-specs-col">
@@ -1024,6 +1032,8 @@ window.addEventListener('DOMContentLoaded', () => {
     <a href="kann_max.html">Kann Max</a>
     <span class="divider">|</span>
     <a href="acroca1000t.html">ACRO CA1000T</a>
+    <span class="divider">|</span>
+    <a href="kenwood_kd500.html">Kenwood KD-500</a> <!-- Added link -->
     <span class="divider">|</span>
     <a href="story.html">Story</a>
     <span class="divider">|</span>
